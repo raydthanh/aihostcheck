@@ -2,6 +2,7 @@ name: Release packaging
 
 on:
   pull_request:
+    types: [opened, synchronize, reopened, closed]
     paths:
       - .github/workflows/release.yml
       - scripts/package-release.sh
@@ -9,6 +10,7 @@ on:
       - cmd/aihostcheck/**
       - internal/**
       - go.mod
+      - CHANGELOG.md
   push:
     tags:
       - "v*.*.*"
@@ -23,6 +25,12 @@ concurrency:
 jobs:
   build:
     name: Package ${{ matrix.goos }}/${{ matrix.goarch }}
+    if: >-
+      github.event_name != 'pull_request' ||
+      github.event.action != 'closed' ||
+      (github.event.pull_request.merged == true &&
+      github.event.pull_request.head.repo.full_name == github.repository &&
+      startsWith(github.event.pull_request.head.ref, 'release/v'))
     runs-on: ubuntu-latest
     timeout-minutes: 10
     strategy:
@@ -37,17 +45,23 @@ jobs:
           go-version-file: go.mod
           cache: false
       - name: Select package version
+        env:
+          RELEASE_BRANCH: ${{ github.event.pull_request.head.ref }}
         shell: bash
         run: |
           if [[ "$GITHUB_REF" == refs/tags/* ]]; then
-            if [[ ! "$GITHUB_REF_NAME" =~ ^v[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z.-]+)?$ ]]; then
-              echo "Release tag must use semantic versioning, for example v0.1.0" >&2
-              exit 1
-            fi
-            echo "PACKAGE_VERSION=$GITHUB_REF_NAME" >> "$GITHUB_ENV"
+            package_version="$GITHUB_REF_NAME"
+          elif [[ "${RELEASE_BRANCH:-}" == release/v* ]]; then
+            package_version="${RELEASE_BRANCH#release/}"
           else
-            echo "PACKAGE_VERSION=dev-${GITHUB_SHA::7}" >> "$GITHUB_ENV"
+            package_version="dev-${GITHUB_SHA::7}"
           fi
+          if [[ ! "$package_version" =~ ^v[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z.-]+)?$ &&
+                ! "$package_version" =~ ^dev-[0-9a-f]{7}$ ]]; then
+            echo "Version must use semantic versioning, for example v0.1.0" >&2
+            exit 1
+          fi
+          echo "PACKAGE_VERSION=$package_version" >> "$GITHUB_ENV"
       - name: Build archive
         shell: bash
         run: ./scripts/package-release.sh "${{ matrix.goos }}" "${{ matrix.goarch }}" "$PACKAGE_VERSION" dist
@@ -61,7 +75,13 @@ jobs:
 
   publish:
     name: Publish GitHub release
-    if: startsWith(github.ref, 'refs/tags/')
+    if: >-
+      startsWith(github.ref, 'refs/tags/') ||
+      (github.event_name == 'pull_request' &&
+      github.event.action == 'closed' &&
+      github.event.pull_request.merged == true &&
+      github.event.pull_request.head.repo.full_name == github.repository &&
+      startsWith(github.event.pull_request.head.ref, 'release/v'))
     needs: build
     runs-on: ubuntu-latest
     timeout-minutes: 10
@@ -78,12 +98,33 @@ jobs:
         run: |
           cd release
           sha256sum aihostcheck_* > checksums.txt
+      - name: Select release version
+        env:
+          RELEASE_BRANCH: ${{ github.event.pull_request.head.ref }}
+        shell: bash
+        run: |
+          if [[ "$GITHUB_REF" == refs/tags/* ]]; then
+            echo "PACKAGE_VERSION=$GITHUB_REF_NAME" >> "$GITHUB_ENV"
+          else
+            echo "PACKAGE_VERSION=${RELEASE_BRANCH#release/}" >> "$GITHUB_ENV"
+          fi
       - name: Publish release
         env:
           GH_TOKEN: ${{ github.token }}
+          RELEASE_TARGET: ${{ github.event.pull_request.merge_commit_sha }}
         shell: bash
-        run: >-
-          gh release create "$GITHUB_REF_NAME" release/*
-          --verify-tag
-          --generate-notes
-          --title "AIHostCheck $GITHUB_REF_NAME"
+        run: |
+          prerelease=()
+          if [[ "$PACKAGE_VERSION" == *-* ]]; then
+            prerelease+=(--prerelease)
+          fi
+          if [[ "$GITHUB_REF" == refs/tags/* ]]; then
+            gh release create "$PACKAGE_VERSION" release/* \
+              --verify-tag --generate-notes --fail-on-no-commits \
+              --title "AIHostCheck $PACKAGE_VERSION" "${prerelease[@]}"
+          else
+            gh release create "$PACKAGE_VERSION" release/* \
+              --target "${RELEASE_TARGET:-$GITHUB_SHA}" \
+              --generate-notes --fail-on-no-commits \
+              --title "AIHostCheck $PACKAGE_VERSION" "${prerelease[@]}"
+          fi
