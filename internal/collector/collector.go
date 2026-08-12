@@ -92,3 +92,13 @@ func cudaCapability(timeout time.Duration) model.Capability {
 	}
 	return model.Capability{Status: model.Unknown, Evidence: []model.Evidence{{Source: "command", Detail: "nvcc completed without a parseable release line"}}}
 }
+
+func nonEmptyLines(output string) []string {
+	var lines []string
+	for _, line := range strings.Split(output, "\n") {
+		if line = strings.TrimSpace(line); line != "" {
+			lines = append(lines, line)
+		}
+	}
+	return lines
+}

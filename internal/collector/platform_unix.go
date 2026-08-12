@@ -141,13 +141,3 @@ func parseMacGPUs(output string) ([]string, error) {
 	}
 	return models, nil
 }
-
-func nonEmptyLines(output string) []string {
-	var lines []string
-	for _, line := range strings.Split(output, "\n") {
-		if line = strings.TrimSpace(line); line != "" {
-			lines = append(lines, line)
-		}
-	}
-	return lines
-}
