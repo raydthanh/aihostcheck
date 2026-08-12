@@ -1,10 +1,17 @@
 # AIHostCheck
 
+[![CI](https://github.com/raydthanh/aihostcheck/actions/workflows/ci.yml/badge.svg)](https://github.com/raydthanh/aihostcheck/actions/workflows/ci.yml)
+[![License](https://img.shields.io/github/license/raydthanh/aihostcheck)](LICENSE)
+
 AIHostCheck is a small, read-only, cross-OS diagnostic layer that gives people, GPTs, and AI coding agents evidence about the host **before** they propose commands. It is a native Go CLI—not a system-info demo and not a website.
 
 > [aihostcheck.bond](https://aihostcheck.bond) is only a companion site. This GitHub repository is the source of truth for code, releases, schemas, and security policy.
 
 ## Quick start
+
+Download the standalone archive for Windows, macOS, or Linux from [GitHub Releases](https://github.com/raydthanh/aihostcheck/releases). See the [installation and checksum guide](docs/INSTALL.md) for platform-specific steps.
+
+To build the current source with Go 1.22 or newer:
 
 ```sh
 go build -o aihostcheck ./cmd/aihostcheck
@@ -14,6 +21,8 @@ go build -o aihostcheck ./cmd/aihostcheck
 ```
 
 No probe uses the network. AIHostCheck has no telemetry and never uploads a report.
+
+Before giving a JSON report to GPT or another AI agent, inspect the file and share it as environment context—not as a command to execute.
 
 ## What it checks
 
@@ -31,4 +40,4 @@ Every JSON document contains `schema_version`, UTC generation time, tool version
 
 This foundation favors trustworthy presence/version evidence over exhaustive inventory. If a required inventory utility is unavailable, GPU status is `unknown` rather than a false claim that no GPU exists. It does not contact Docker/Podman daemons. Windows and macOS behavior is continuously compiled and tested by native GitHub-hosted runners, but hardware-specific paths need broader real-device testing.
 
-See [ARCHITECTURE.md](ARCHITECTURE.md) to extend collectors and [CONTRIBUTING.md](CONTRIBUTING.md) to contribute. Licensed under Apache-2.0.
+See [ARCHITECTURE.md](ARCHITECTURE.md) to extend collectors, [CONTRIBUTING.md](CONTRIBUTING.md) to contribute, and [CHANGELOG.md](CHANGELOG.md) for project history. Maintainer releases follow the documented [release process](docs/RELEASING.md). Licensed under Apache-2.0.
