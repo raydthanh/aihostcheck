@@ -73,6 +73,43 @@ jobs:
           if-no-files-found: error
           retention-days: 7
 
+  assemble:
+    name: Verify release assets
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/download-artifact@v8
+        with:
+          pattern: aihostcheck_*
+          path: release
+          merge-multiple: true
+          skip-decompress: true
+      - name: Create checksums
+        shell: bash
+        run: |
+          cd release
+          shopt -s nullglob
+          archives=(aihostcheck_*)
+          if [[ "${#archives[@]}" -ne 6 ]]; then
+            echo "Expected six release archives, found ${#archives[@]}" >&2
+            exit 1
+          fi
+          for archive in "${archives[@]}"; do
+            if [[ ! -f "$archive" ]]; then
+              echo "Release asset is not a file: $archive" >&2
+              exit 1
+            fi
+          done
+          sha256sum "${archives[@]}" > checksums.txt
+      - name: Upload verified release bundle
+        uses: actions/upload-artifact@v7
+        with:
+          name: release-bundle
+          path: release/*
+          if-no-files-found: error
+          retention-days: 7
+
   publish:
     name: Publish GitHub release
     if: >-
@@ -82,7 +119,7 @@ jobs:
       github.event.pull_request.merged == true &&
       github.event.pull_request.head.repo.full_name == github.repository &&
       startsWith(github.event.pull_request.head.ref, 'release/v'))
-    needs: build
+    needs: assemble
     runs-on: ubuntu-latest
     timeout-minutes: 10
     permissions:
@@ -90,14 +127,8 @@ jobs:
     steps:
       - uses: actions/download-artifact@v8
         with:
-          pattern: aihostcheck_*
+          name: release-bundle
           path: release
-          merge-multiple: true
-      - name: Create checksums
-        shell: bash
-        run: |
-          cd release
-          sha256sum aihostcheck_* > checksums.txt
       - name: Select release version
         env:
           RELEASE_BRANCH: ${{ github.event.pull_request.head.ref }}
