@@ -15,8 +15,13 @@ var version = "dev"
 
 func main() {
 	jsonOutput := flag.Bool("json", false, "emit the machine-readable JSON report")
+	showVersion := flag.Bool("version", false, "print the AIHostCheck version and exit")
 	timeout := flag.Duration("timeout", 3*time.Second, "maximum duration of each command probe")
 	flag.Parse()
+	if *showVersion {
+		fmt.Fprintln(os.Stdout, version)
+		return
+	}
 	if *timeout <= 0 || *timeout > 30*time.Second {
 		fmt.Fprintln(os.Stderr, "timeout must be greater than zero and no more than 30s")
 		os.Exit(2)

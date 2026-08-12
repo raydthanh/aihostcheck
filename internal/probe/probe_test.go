@@ -1,6 +1,7 @@
 package probe
 
 import (
+	"os"
 	"runtime"
 	"strings"
 	"testing"
@@ -23,6 +24,37 @@ func TestCommandOutput(t *testing.T) {
 	r := Command(time.Second, "printf", "first\nsecond")
 	if r.Status != model.Detected || r.Value != "first" {
 		t.Fatalf("result = %#v", r)
+	}
+}
+
+func TestCommandSkipsLeadingBlankLine(t *testing.T) {
+	if runtime.GOOS == "windows" {
+		t.Skip("test helper differs on Windows")
+	}
+	r := Command(time.Second, "printf", "\nfirst\nsecond")
+	if r.Status != model.Detected || r.Value != "first" {
+		t.Fatalf("result = %#v", r)
+	}
+}
+
+func TestCommandWithoutOutputIsUnknown(t *testing.T) {
+	if runtime.GOOS == "windows" {
+		t.Skip("test helper differs on Windows")
+	}
+	r := Command(time.Second, "printf", "")
+	if r.Status != model.Unknown {
+		t.Fatalf("result = %#v", r)
+	}
+}
+
+func TestRedactHome(t *testing.T) {
+	home, err := os.UserHomeDir()
+	if err != nil || home == "" {
+		t.Skip("home directory unavailable")
+	}
+	got := redactHome("path=" + home + string(os.PathSeparator) + "private")
+	if strings.Contains(got, home) || !strings.Contains(got, "~") {
+		t.Fatalf("redaction failed: %q", got)
 	}
 }
 

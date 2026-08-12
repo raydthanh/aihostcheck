@@ -6,4 +6,4 @@ Please use GitHub's private security-advisory reporting for this repository rath
 
 ## Security model
 
-AIHostCheck is read-only and offline. Probes execute resolved binaries directly with fixed arguments, bounded output, and a per-command timeout. Reports are untrusted input when consumed elsewhere: validate them against the bundled JSON Schema and never interpolate values into shell commands. Running the tool with elevated privileges is neither required nor recommended.
+AIHostCheck is read-only and offline. Probes execute resolved binaries with fixed arguments, bounded output, and a per-command timeout. The Windows GPU collector uses a fixed, non-interactive PowerShell/CIM query with no interpolated or user-controlled input. Reports are untrusted input when consumed elsewhere: validate them against the bundled JSON Schema and never interpolate values into shell commands. Running the tool with elevated privileges is neither required nor recommended.
