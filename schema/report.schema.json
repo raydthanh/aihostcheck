@@ -1,0 +1,133 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aihostcheck.bond/schemas/report-1.0.0.json",
+  "title": "AIHostCheck Report 1.0.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "generated_at",
+    "tool_version",
+    "platform",
+    "capabilities"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "tool_version": {
+      "type": "string"
+    },
+    "platform": {
+      "type": "string"
+    },
+    "capabilities": {
+      "type": "object",
+      "required": [
+        "os",
+        "os_version",
+        "cpu",
+        "memory",
+        "root_storage",
+        "shell",
+        "python",
+        "nodejs",
+        "go",
+        "java",
+        "git",
+        "docker",
+        "podman",
+        "package_manager",
+        "gpu",
+        "nvidia_driver",
+        "cuda"
+      ],
+      "additionalProperties": {
+        "$ref": "#/$defs/capability"
+      }
+    }
+  },
+  "$defs": {
+    "evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source",
+        "detail"
+      ],
+      "properties": {
+        "source": {
+          "type": "string"
+        },
+        "detail": {
+          "type": "string"
+        }
+      }
+    },
+    "capability": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "evidence"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "detected",
+            "not_detected",
+            "unknown",
+            "unsupported",
+            "error",
+            "permission_denied"
+          ]
+        },
+        "value": {
+          "type": "string"
+        },
+        "evidence": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/evidence"
+          }
+        },
+        "details": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "detected"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "required": [
+              "value"
+            ],
+            "properties": {
+              "value": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}
