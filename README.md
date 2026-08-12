@@ -1,6 +1,7 @@
 # AIHostCheck
 
 [![CI](https://github.com/raydthanh/aihostcheck/actions/workflows/ci.yml/badge.svg)](https://github.com/raydthanh/aihostcheck/actions/workflows/ci.yml)
+[![Release](https://img.shields.io/github/v/release/raydthanh/aihostcheck)](https://github.com/raydthanh/aihostcheck/releases/latest)
 [![License](https://img.shields.io/github/license/raydthanh/aihostcheck)](LICENSE)
 
 AIHostCheck is a small, read-only, cross-OS diagnostic layer that gives people, GPTs, and AI coding agents evidence about the host **before** they propose commands. It is a native Go CLI—not a system-info demo and not a website.
@@ -22,7 +23,7 @@ go build -o aihostcheck ./cmd/aihostcheck
 
 No probe uses the network. AIHostCheck has no telemetry and never uploads a report.
 
-Before giving a JSON report to GPT or another AI agent, inspect the file and share it as environment context—not as a command to execute.
+Before giving a JSON report to GPT or another AI agent, inspect the file and share it as environment context—not as a command to execute. The [AI workflow guide](docs/USING_WITH_AI.md) includes a safe, reusable prompt and explains how an agent should interpret evidence and unknown states.
 
 ## What it checks
 

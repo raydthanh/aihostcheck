@@ -1,0 +1,62 @@
+name: Bug report
+description: Report incorrect detection, output, installation, or cross-OS behavior.
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping improve AIHostCheck. Do not paste credentials, private paths, or an unreviewed diagnostic report. Report security vulnerabilities through a private security advisory.
+  - type: dropdown
+    id: operating-system
+    attributes:
+      label: Operating system
+      options:
+        - Windows
+        - macOS
+        - Linux
+        - Other
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: AIHostCheck version
+      description: Run `aihostcheck --version`.
+      placeholder: v0.1.0
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+      description: What result did you expect, and what evidence supports it?
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+      description: Include only the smallest redacted output needed to explain the problem.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction steps
+      description: Provide a minimal, repeatable sequence.
+      placeholder: |
+        1. Download ...
+        2. Run ...
+        3. Observe ...
+    validations:
+      required: true
+  - type: checkboxes
+    id: privacy
+    attributes:
+      label: Privacy check
+      options:
+        - label: I reviewed and redacted all output included in this issue.
+          required: true
+        - label: This report does not describe a security vulnerability.
+          required: true
