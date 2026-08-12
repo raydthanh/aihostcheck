@@ -4,6 +4,8 @@ All notable changes to AIHostCheck will be documented in this file. The project 
 
 ## Unreleased
 
+## [0.1.0] - 2026-08-12
+
 ### Added
 
 - Initial read-only diagnostic core for Windows, macOS, and Linux.
@@ -11,3 +13,6 @@ All notable changes to AIHostCheck will be documented in this file. The project 
 - Privacy-aware evidence collection for OS, CPU, RAM, storage, shells, runtimes, package managers, containers, GPU, NVIDIA driver, and CUDA.
 - Cross-OS CI, report schema, contributor documentation, and security/privacy policies.
 - Automated release packaging for six OS/architecture combinations with SHA-256 checksums.
+
+[Unreleased]: https://github.com/raydthanh/aihostcheck/compare/v0.1.0...HEAD
+[0.1.0]: https://github.com/raydthanh/aihostcheck/releases/tag/v0.1.0
