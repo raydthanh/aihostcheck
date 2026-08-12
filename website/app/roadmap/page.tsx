@@ -176,9 +176,9 @@ export default function RoadmapPage() {
             <span>Working early foundation</span>
           </div>
           <div>
-            <small>ADOPTION CLAIM</small>
-            <strong>None</strong>
-            <span>Validation is still early</span>
+            <small>VALIDATION STAGE</small>
+            <strong>Early</strong>
+            <span>Real-device coverage is next</span>
           </div>
           <div>
             <small>COMPLETION RULE</small>
