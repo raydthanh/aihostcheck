@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 const github = "https://github.com/raydthanh/aihostcheck";
 
 export const metadata: Metadata = {
-  title: "Community field test · AIHostCheck",
+  title: "Community field test",
   description:
     "Run AIHostCheck on a real Windows, macOS, or Linux host and help improve evidence-based diagnostics for AI coding workflows.",
   alternates: {
