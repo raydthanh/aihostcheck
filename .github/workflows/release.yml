@@ -151,10 +151,12 @@ jobs:
           fi
           if [[ "$GITHUB_REF" == refs/tags/* ]]; then
             gh release create "$PACKAGE_VERSION" release/* \
+              --repo "$GITHUB_REPOSITORY" \
               --verify-tag --generate-notes --fail-on-no-commits \
               --title "AIHostCheck $PACKAGE_VERSION" "${prerelease[@]}"
           else
             gh release create "$PACKAGE_VERSION" release/* \
+              --repo "$GITHUB_REPOSITORY" \
               --target "${RELEASE_TARGET:-$GITHUB_SHA}" \
               --generate-notes --fail-on-no-commits \
               --title "AIHostCheck $PACKAGE_VERSION" "${prerelease[@]}"
