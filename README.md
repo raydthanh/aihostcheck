@@ -1,6 +1,7 @@
 # AIHostCheck
 
 [![CI](https://github.com/raydthanh/aihostcheck/actions/workflows/ci.yml/badge.svg)](https://github.com/raydthanh/aihostcheck/actions/workflows/ci.yml)
+[![Website CI](https://github.com/raydthanh/aihostcheck/actions/workflows/website.yml/badge.svg)](https://github.com/raydthanh/aihostcheck/actions/workflows/website.yml)
 [![Release](https://img.shields.io/github/v/release/raydthanh/aihostcheck)](https://github.com/raydthanh/aihostcheck/releases/latest)
 [![License](https://img.shields.io/github/license/raydthanh/aihostcheck)](LICENSE)
 
@@ -23,6 +24,8 @@ go build -o aihostcheck ./cmd/aihostcheck
 
 No probe uses the network. AIHostCheck has no telemetry and never uploads a report.
 
+**Project status:** v0.1.0 is a working early release, not a claim of established adoption. The [public roadmap](docs/ROADMAP.md) separates shipped evidence, planned work, exploratory ideas, and explicit non-goals. Roadmap items move through the issue tracker and count as complete only when their code, tests, documentation, or release evidence is public.
+
 Before giving a JSON report to GPT or another AI agent, inspect the file and share it as environment context—not as a command to execute. The [AI workflow guide](docs/USING_WITH_AI.md) includes a safe, reusable prompt and explains how an agent should interpret evidence and unknown states.
 
 ## What it checks
@@ -41,4 +44,4 @@ Every JSON document contains `schema_version`, UTC generation time, tool version
 
 This foundation favors trustworthy presence/version evidence over exhaustive inventory. If a required inventory utility is unavailable, GPU status is `unknown` rather than a false claim that no GPU exists. It does not contact Docker/Podman daemons. Windows and macOS behavior is continuously compiled and tested by native GitHub-hosted runners, but hardware-specific paths need broader real-device testing.
 
-See [ARCHITECTURE.md](ARCHITECTURE.md) to extend collectors, [CONTRIBUTING.md](CONTRIBUTING.md) to contribute, and [CHANGELOG.md](CHANGELOG.md) for project history. Maintainer releases follow the documented [release process](docs/RELEASING.md). Licensed under Apache-2.0.
+See the [roadmap](docs/ROADMAP.md) for measurable next outcomes, [ARCHITECTURE.md](ARCHITECTURE.md) to extend collectors, [CONTRIBUTING.md](CONTRIBUTING.md) to contribute, and [CHANGELOG.md](CHANGELOG.md) for project history. Maintainer releases follow the documented [release process](docs/RELEASING.md). Licensed under Apache-2.0.

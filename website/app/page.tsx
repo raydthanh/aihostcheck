@@ -61,7 +61,7 @@ export default async function Home() {
         <nav aria-label="Main navigation">
           <a href="#why">Why</a>
           <a href="#proof">Project</a>
-          <a href="#roadmap">Roadmap</a>
+          <a href="/roadmap">Roadmap</a>
         </nav>
         <a className="header-link" href={github} target="_blank" rel="noreferrer">
           GitHub
@@ -401,6 +401,10 @@ export default async function Home() {
               </ul>
             </article>
           </div>
+          <a className="text-link roadmap-link" href="/roadmap">
+            See milestones and completion evidence
+            <ArrowIcon />
+          </a>
         </section>
 
         <section className="partners shell">
@@ -469,6 +473,7 @@ export default async function Home() {
           <a href={github} target="_blank" rel="noreferrer">
             GitHub
           </a>
+          <a href="/roadmap">Roadmap</a>
           <a
             href={`${github}/blob/main/PRIVACY.md`}
             target="_blank"
