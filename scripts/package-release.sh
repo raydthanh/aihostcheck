@@ -52,14 +52,19 @@ CGO_ENABLED=0 GOOS="$target_os" GOARCH="$target_arch" \
   go build -trimpath -ldflags "-s -w -X main.version=$display_version" \
   -o "$package_directory/$binary_name" ./cmd/aihostcheck
 
+source_date_epoch="${SOURCE_DATE_EPOCH:-$(git log -1 --format=%ct)}"
+find "$package_directory" -exec touch -d "@$source_date_epoch" {} +
+
 if [[ "$target_os" == "windows" ]]; then
   (
     cd "$output_directory"
-    zip -qr "$package_name.zip" "$package_name"
+    zip -Xqr "$package_name.zip" "$package_name"
   )
   archive="$output_directory/$package_name.zip"
 else
-  tar -C "$output_directory" -czf "$output_directory/$package_name.tar.gz" "$package_name"
+  tar -C "$output_directory" --sort=name --mtime="@$source_date_epoch" \
+    --owner=0 --group=0 --numeric-owner -cf - "$package_name" \
+    | gzip -n > "$output_directory/$package_name.tar.gz"
   archive="$output_directory/$package_name.tar.gz"
 fi
 

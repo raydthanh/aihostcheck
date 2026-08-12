@@ -18,4 +18,4 @@ AIHostCheck uses semantic version tags and GitHub Actions to build releases. Rel
 6. Download at least one archive, verify its checksum, run `--version`, and generate a JSON report without elevated privileges.
 7. Confirm the website and installation documentation link to the new release.
 
-The release workflow validates tag format, embeds the tag in each binary, cross-compiles with `CGO_ENABLED=0`, and publishes only after every operating-system and architecture package succeeds.
+The release workflow validates tag format, embeds the tag in each binary, cross-compiles with `CGO_ENABLED=0`, normalizes archive timestamps and ownership metadata, and publishes only after every operating-system and architecture package succeeds.
