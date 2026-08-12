@@ -93,11 +93,24 @@ jobs:
           pattern: aihostcheck_*
           path: release
           merge-multiple: true
+          skip-decompress: true
       - name: Create checksums
         shell: bash
         run: |
           cd release
-          sha256sum aihostcheck_* > checksums.txt
+          shopt -s nullglob
+          archives=(aihostcheck_*)
+          if [[ "${#archives[@]}" -ne 6 ]]; then
+            echo "Expected six release archives, found ${#archives[@]}" >&2
+            exit 1
+          fi
+          for archive in "${archives[@]}"; do
+            if [[ ! -f "$archive" ]]; then
+              echo "Release asset is not a file: $archive" >&2
+              exit 1
+            fi
+          done
+          sha256sum "${archives[@]}" > checksums.txt
       - name: Select release version
         env:
           RELEASE_BRANCH: ${{ github.event.pull_request.head.ref }}
