@@ -1,0 +1,40 @@
+name: Feature request
+description: Propose a capability or improvement with an evidence source and AI workflow.
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What real AI development workflow is currently blocked or unreliable?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed behavior
+      description: Describe the smallest useful change and the supported operating systems.
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence source
+      description: Which documented OS API, system file, runtime API, or fixed read-only command can establish this fact without guessing?
+    validations:
+      required: true
+  - type: textarea
+    id: privacy
+    attributes:
+      label: Privacy and security impact
+      description: What data would be collected, how identifying is it, and is there a less sensitive alternative?
+    validations:
+      required: true
+  - type: textarea
+    id: consumer
+    attributes:
+      label: AI consumer behavior
+      description: How should an AI agent use this capability, including unknown and failure states?
+    validations:
+      required: true

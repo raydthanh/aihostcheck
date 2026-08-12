@@ -4,6 +4,10 @@ All notable changes to AIHostCheck will be documented in this file. The project 
 
 ## Unreleased
 
+### Added
+
+- Safe AI-consumer workflow guidance and structured community issue and pull-request templates.
+
 ## [0.1.0] - 2026-08-12
 
 ### Added

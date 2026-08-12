@@ -72,6 +72,8 @@ cd aihostcheck_0.1.0_linux_amd64
 
 Inspect `aihostcheck-report.json` before sharing it with an AI agent or another person. AIHostCheck does not upload the report.
 
+Continue with [Use a report with GPT or an AI coding agent](USING_WITH_AI.md) for a safe prompt template and guidance on interpreting `unknown`, `not_detected`, and evidence fields.
+
 ## Platform security notices
 
 Early AIHostCheck binaries are not code-signed. Windows SmartScreen or macOS Gatekeeper may therefore warn or block them even when their checksum is correct. Do not disable system-wide security protections. If local policy does not allow an unsigned binary, build from source instead or wait for signed releases.
