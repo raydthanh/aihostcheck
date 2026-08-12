@@ -61,6 +61,7 @@ export default async function Home() {
         <nav aria-label="Main navigation">
           <a href="#why">Why</a>
           <a href="#proof">Project</a>
+          <a href="/field-test">Field test</a>
           <a href="/roadmap">Roadmap</a>
         </nav>
         <a className="header-link" href={github} target="_blank" rel="noreferrer">
@@ -473,6 +474,7 @@ export default async function Home() {
           <a href={github} target="_blank" rel="noreferrer">
             GitHub
           </a>
+          <a href="/field-test">Field test</a>
           <a href="/roadmap">Roadmap</a>
           <a
             href={`${github}/blob/main/PRIVACY.md`}
