@@ -36,7 +36,7 @@ The initial collector covers OS/version/architecture, logical CPU count, physica
 
 ## Safety and privacy
 
-Collection is read-only. The tool intentionally does **not** collect username, hostname, IP addresses, credentials, full environment-variable sets, personal files, or process command lines. On Unix, the report keeps only the basename of `SHELL`; command output is scrubbed of the current home-directory prefix. Commands have fixed arguments, time out (3 seconds by default), and capture at most 32 KiB. Windows GPU inventory uses one fixed, non-interactive, read-only CIM query with no user input. Review output before sharing it: versions and hardware may still be sensitive in your context. See [PRIVACY.md](PRIVACY.md) and [SECURITY.md](SECURITY.md).
+Collection is read-only. The tool intentionally does **not** collect username, hostname, IP addresses, credentials, full environment-variable sets, personal files, or process command lines. On Unix, the report keeps only the basename of `SHELL`; command output is scrubbed of the current home-directory prefix. Commands have fixed arguments, time out (15 seconds by default), and capture at most 32 KiB. Fast probes return immediately; the longer bound accommodates a cold, non-interactive PowerShell start for Windows GPU inventory and can be changed with `--timeout`. Windows GPU inventory uses one fixed, non-interactive, read-only CIM query with no user input. Review output before sharing it: versions and hardware may still be sensitive in your context. See [PRIVACY.md](PRIVACY.md) and [SECURITY.md](SECURITY.md).
 
 ## Report contract
 

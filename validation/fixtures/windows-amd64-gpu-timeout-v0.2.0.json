@@ -1,0 +1,28 @@
+{
+  "fixture_version": "1.0.0",
+  "tool_version": "v0.2.0",
+  "report_schema_version": "1.0.0",
+  "tested_at": "2026-08-13",
+  "platform": {
+    "os": "windows",
+    "architecture": "amd64",
+    "execution_environment": "physical_host"
+  },
+  "capabilities": {
+    "gpu": {
+      "outcome": "incorrect",
+      "observed_status": "error",
+      "reviewed_fields": ["status", "evidence"],
+      "tracking_issue": "https://github.com/raydthanh/aihostcheck/issues/24",
+      "regression_test": "cmd/aihostcheck/main_test.go"
+    }
+  },
+  "limitations": [
+    "The default timeout result was compared with a successful 15-second rerun; GPU identity and other report values were not retained."
+  ],
+  "review": {
+    "report_reviewed_locally": true,
+    "raw_report_committed": false,
+    "sensitive_data_removed": true
+  }
+}

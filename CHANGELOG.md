@@ -4,6 +4,18 @@ All notable changes to AIHostCheck will be documented in this file. The project 
 
 ## Unreleased
 
+### Fixed
+
+- Increase the default per-command probe timeout from 3 to 15 seconds so a
+  cold, non-interactive Windows PowerShell/CIM GPU inventory does not produce
+  a false `error`; the explicit `--timeout` override remains available.
+
+### Validation
+
+- Record the first privacy-safe real-device fixture from a Windows AMD64
+  physical host, linking the confirmed GPU timeout to its public issue and
+  regression test without retaining the report or GPU identity.
+
 ## [0.2.0] - 2026-08-13
 
 ### Added
