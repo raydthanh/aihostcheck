@@ -4,6 +4,8 @@ All notable changes to AIHostCheck will be documented in this file. The project 
 
 ## Unreleased
 
+## [0.2.1] - 2026-08-13
+
 ### Fixed
 
 - Increase the default per-command probe timeout from 3 to 15 seconds so a
@@ -42,6 +44,7 @@ All notable changes to AIHostCheck will be documented in this file. The project 
 
 - Release publication explicitly targets the repository and does not depend on local Git metadata.
 
-[Unreleased]: https://github.com/raydthanh/aihostcheck/compare/v0.2.0...HEAD
+[Unreleased]: https://github.com/raydthanh/aihostcheck/compare/v0.2.1...HEAD
+[0.2.1]: https://github.com/raydthanh/aihostcheck/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/raydthanh/aihostcheck/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/raydthanh/aihostcheck/releases/tag/v0.1.0

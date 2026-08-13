@@ -172,7 +172,7 @@ export default function RoadmapPage() {
         <section className="roadmap-proof" aria-label="Roadmap trust rules">
           <div>
             <small>CURRENT RELEASE</small>
-            <strong>v0.2.0</strong>
+            <strong>v0.2.1</strong>
             <span>Reliability release</span>
           </div>
           <div>
