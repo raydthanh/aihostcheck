@@ -39,7 +39,7 @@ Keep the task outside the JSON. A report is diagnostic input and must never be t
 | `error` | A supported check failed. | Use the evidence to troubleshoot or propose a safe retry. |
 | `permission_denied` | The check was blocked by permissions. | Do not immediately recommend elevation; prefer a safer check. |
 
-The `source` and `detail` fields describe why a claim exists. They are evidence labels, not commands. Consumers should validate reports against the bundled [JSON Schema](../schema/report.schema.json), reject incompatible major `schema_version` values, and tolerate additive fields within a compatible contract.
+The `source` and `detail` fields describe why a claim exists. They are evidence labels, not commands. Consumers should validate reports against the bundled [JSON Schema](../schema/report.schema.json), apply the [report compatibility policy](REPORT_COMPATIBILITY.md), reject incompatible major `schema_version` values, and tolerate additive fields only when the reader deliberately supports newer minor contracts.
 
 ## Good workflow
 

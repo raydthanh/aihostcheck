@@ -40,7 +40,7 @@ Collection is read-only. The tool intentionally does **not** collect username, h
 
 ## Report contract
 
-Every JSON document contains `schema_version`, UTC generation time, tool version, target platform, and a capability map. Each capability has one of `detected`, `not_detected`, `unknown`, `unsupported`, `error`, or `permission_denied`; detected claims include evidence identifying the source. The normative schema is [`schema/report.schema.json`](schema/report.schema.json). Additive fields require a minor schema version; removals or semantic changes require a major version.
+Every JSON document contains `schema_version`, UTC generation time, tool version, target platform, and a capability map. Each capability has one of `detected`, `not_detected`, `unknown`, `unsupported`, `error`, or `permission_denied`; detected claims include evidence identifying the source. The normative schema is [`schema/report.schema.json`](schema/report.schema.json). The [compatibility policy](docs/REPORT_COMPATIBILITY.md) defines exact, older-minor, newer-minor, and incompatible-major behavior, plus when an agent should request a fresh report. Additive fields require a minor schema version; removals or semantic changes require a major version and migration notes.
 
 ## Scope and limitations
 

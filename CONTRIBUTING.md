@@ -10,6 +10,6 @@ go test ./...
 go vet ./...
 ```
 
-Explain the evidence source and privacy impact of every new capability. Add OS-specific implementations under build tags, preserve all six status meanings, update the JSON Schema when changing the contract, and avoid speculative detection. By contributing, you agree that your work is licensed under Apache-2.0.
+Explain the evidence source and privacy impact of every new capability. Add OS-specific implementations under build tags, preserve all six status meanings, update the JSON Schema when changing the contract, and avoid speculative detection. Semantic schema changes must follow the [compatibility and migration policy](docs/REPORT_COMPATIBILITY.md) and include migration notes under `docs/migrations/`. By contributing, you agree that your work is licensed under Apache-2.0.
 
 Bug reports must not contain credentials, private paths, or an unreviewed diagnostic report. Include only the smallest redacted output needed to reproduce a problem. Security vulnerabilities belong in a [private security advisory](https://github.com/raydthanh/aihostcheck/security/advisories/new), not a public issue.
