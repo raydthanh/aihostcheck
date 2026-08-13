@@ -28,7 +28,7 @@ export type ProjectSnapshot = {
 };
 
 const fallback: ProjectSnapshot = {
-  release: "v0.2.0",
+  release: "v0.2.1",
   publishedAt: "2026-08-13T05:16:16Z",
   repoUpdatedAt: "2026-08-13T05:15:10Z",
   stars: 44,

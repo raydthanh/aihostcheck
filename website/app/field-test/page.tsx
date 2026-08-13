@@ -76,7 +76,7 @@ export default function FieldTestPage() {
         <section className="field-hero shell">
           <div className="field-kicker">
             <span className="pulse" />
-            PUBLIC FIELD TEST · v0.2.0 · NO SIGNUP
+            PUBLIC FIELD TEST · v0.2.1 · NO SIGNUP
           </div>
           <div className="field-hero-grid">
             <div>
@@ -93,11 +93,11 @@ export default function FieldTestPage() {
               <div className="hero-actions">
                 <a
                   className="button button-primary"
-                  href={`${github}/releases/tag/v0.2.0`}
+                  href={`${github}/releases/tag/v0.2.1`}
                   target="_blank"
                   rel="noreferrer"
                 >
-                  Download v0.2.0
+                  Download v0.2.1
                   <ArrowIcon />
                 </a>
                 <a

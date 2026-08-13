@@ -24,7 +24,7 @@ go build -o aihostcheck ./cmd/aihostcheck
 
 No probe uses the network. AIHostCheck has no telemetry and never uploads a report.
 
-**Project status:** v0.2.0 is a working early release, not a claim of established adoption. The [public roadmap](docs/ROADMAP.md) separates shipped evidence, planned work, exploratory ideas, and explicit non-goals. Roadmap items move through the issue tracker and count as complete only when their code, tests, documentation, or release evidence is public.
+**Project status:** v0.2.1 is a working early release, not a claim of established adoption. The [public roadmap](docs/ROADMAP.md) separates shipped evidence, planned work, exploratory ideas, and explicit non-goals. Roadmap items move through the issue tracker and count as complete only when their code, tests, documentation, or release evidence is public.
 
 **Community field test:** developers can follow the bounded [field-test protocol](docs/FIELD_TESTING.md) to validate the release on a real machine. Participation requires no account, telemetry, or full report submission. The [minimal fixture format](validation/README.md) publishes only reviewed conclusions; hardware coverage remains unclaimed until a real-host fixture passes CI and privacy review.
 
