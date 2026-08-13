@@ -26,7 +26,7 @@ compare long values visually.
 ### Windows PowerShell
 
 ```powershell
-$Archive = "aihostcheck_0.1.0_windows_amd64.zip"
+$Archive = "aihostcheck_0.2.0_windows_amd64.zip"
 $Match = @(Select-String -Path .\checksums.txt -Pattern ("  " + [regex]::Escape($Archive) + "$"))
 if ($Match.Count -ne 1) { throw "Expected one checksum entry" }
 $Expected = ($Match[0].Line -split '\s+')[0]
@@ -38,7 +38,7 @@ if ($Actual -ne $Expected.ToLowerInvariant()) { throw "Checksum mismatch" }
 ### macOS
 
 ```sh
-archive=aihostcheck_0.1.0_darwin_arm64.tar.gz
+archive=aihostcheck_0.2.0_darwin_arm64.tar.gz
 checksum_line=$(awk -v name="$archive" '$2 == name { print }' checksums.txt)
 test -n "$checksum_line"
 printf '%s\n' "$checksum_line" | shasum -a 256 -c -
@@ -47,7 +47,7 @@ printf '%s\n' "$checksum_line" | shasum -a 256 -c -
 ### Linux
 
 ```sh
-archive=aihostcheck_0.1.0_linux_amd64.tar.gz
+archive=aihostcheck_0.2.0_linux_amd64.tar.gz
 checksum_line=$(awk -v name="$archive" '$2 == name { print }' checksums.txt)
 test -n "$checksum_line"
 printf '%s\n' "$checksum_line" | sha256sum -c -
@@ -55,7 +55,7 @@ printf '%s\n' "$checksum_line" | sha256sum -c -
 
 The command must print `OK` (macOS/Linux) or `Checksum verified` (Windows).
 An empty or missing checksum line is a failure; do not run the archive. Replace
-`0.1.0` and the platform suffix with the downloaded filename.
+`0.2.0` and the platform suffix with the downloaded filename.
 
 ### Verify build provenance when available
 
@@ -76,8 +76,8 @@ additional origin check; keep the SHA-256 verification step. See the
 ### Windows PowerShell
 
 ```powershell
-Expand-Archive .\aihostcheck_0.1.0_windows_amd64.zip
-cd .\aihostcheck_0.1.0_windows_amd64
+Expand-Archive .\aihostcheck_0.2.0_windows_amd64.zip
+cd .\aihostcheck_0.2.0_windows_amd64
 .\aihostcheck.exe --version
 .\aihostcheck.exe --json > aihostcheck-report.json
 ```
@@ -85,8 +85,8 @@ cd .\aihostcheck_0.1.0_windows_amd64
 ### macOS
 
 ```sh
-tar -xzf aihostcheck_0.1.0_darwin_arm64.tar.gz
-cd aihostcheck_0.1.0_darwin_arm64
+tar -xzf aihostcheck_0.2.0_darwin_arm64.tar.gz
+cd aihostcheck_0.2.0_darwin_arm64
 ./aihostcheck --version
 ./aihostcheck --json > aihostcheck-report.json
 ```
@@ -94,8 +94,8 @@ cd aihostcheck_0.1.0_darwin_arm64
 ### Linux
 
 ```sh
-tar -xzf aihostcheck_0.1.0_linux_amd64.tar.gz
-cd aihostcheck_0.1.0_linux_amd64
+tar -xzf aihostcheck_0.2.0_linux_amd64.tar.gz
+cd aihostcheck_0.2.0_linux_amd64
 ./aihostcheck --version
 ./aihostcheck --json > aihostcheck-report.json
 ```
