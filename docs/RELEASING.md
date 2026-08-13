@@ -16,8 +16,16 @@ AIHostCheck uses controlled release pull requests and GitHub Actions to build re
 4. If `schema_version` changed, confirm the normative schema, compatibility tests, examples, and `docs/migrations/` notes changed together.
 5. Confirm normal CI and all six dry-run packaging jobs pass on the release pull request.
 6. Merge the release pull request. Its closed-and-merged event creates the matching tag and GitHub Release from the resulting `main` commit. Fork pull requests and ordinary branch names cannot publish.
-7. Confirm all six release packaging jobs pass and the GitHub release contains six archives plus `checksums.txt`.
-8. Download at least one archive, verify its checksum, run `--version`, and generate a JSON report without elevated privileges.
-9. Confirm the website and installation documentation link to the new release.
+7. Confirm all six release packaging jobs and the native Windows, macOS, and
+   Linux installation-verification jobs pass.
+8. Confirm the provenance-attestation step succeeds before publication and the
+   GitHub release contains six archives plus `checksums.txt`.
+9. Download at least one archive, verify its checksum and attestation, run
+   `--version`, and generate a JSON report without elevated privileges.
+10. Confirm the website and installation documentation link to the new release.
 
 The release workflow validates the version, embeds it in each binary, cross-compiles with `CGO_ENABLED=0`, normalizes archive timestamps and ownership metadata, and publishes only after every operating-system and architecture package succeeds. Existing externally created semantic-version tags remain supported as a maintainer fallback.
+
+The [distribution and signing policy](DISTRIBUTION.md) defines the artifact
+identity, scoped permissions, keyless provenance, recovery procedure, and the
+requirements that must be met before operating-system code signing is added.

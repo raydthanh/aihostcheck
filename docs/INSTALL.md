@@ -19,27 +19,57 @@ Each archive also contains the license, report schema, and a copy of this instal
 
 ## 2. Verify the download
 
-Download `checksums.txt` from the same release. Compare the archive's SHA-256 value before running it.
+Download `checksums.txt` from the same release. Verify the archive's SHA-256
+value before running it. The commands below fail instead of asking you to
+compare long values visually.
 
 ### Windows PowerShell
 
 ```powershell
-(Get-FileHash .\aihostcheck_0.1.0_windows_amd64.zip -Algorithm SHA256).Hash.ToLower()
+$Archive = "aihostcheck_0.1.0_windows_amd64.zip"
+$Match = @(Select-String -Path .\checksums.txt -Pattern ("  " + [regex]::Escape($Archive) + "$"))
+if ($Match.Count -ne 1) { throw "Expected one checksum entry" }
+$Expected = ($Match[0].Line -split '\s+')[0]
+$Actual = (Get-FileHash ".\$Archive" -Algorithm SHA256).Hash.ToLowerInvariant()
+if ($Actual -ne $Expected.ToLowerInvariant()) { throw "Checksum mismatch" }
+"Checksum verified: $Archive"
 ```
 
 ### macOS
 
 ```sh
-shasum -a 256 aihostcheck_0.1.0_darwin_arm64.tar.gz
+archive=aihostcheck_0.1.0_darwin_arm64.tar.gz
+checksum_line=$(awk -v name="$archive" '$2 == name { print }' checksums.txt)
+test -n "$checksum_line"
+printf '%s\n' "$checksum_line" | shasum -a 256 -c -
 ```
 
 ### Linux
 
 ```sh
-sha256sum aihostcheck_0.1.0_linux_amd64.tar.gz
+archive=aihostcheck_0.1.0_linux_amd64.tar.gz
+checksum_line=$(awk -v name="$archive" '$2 == name { print }' checksums.txt)
+test -n "$checksum_line"
+printf '%s\n' "$checksum_line" | sha256sum -c -
 ```
 
-The printed value must match the corresponding line in `checksums.txt`. Replace `0.1.0` and the platform suffix with the downloaded filename.
+The command must print `OK` (macOS/Linux) or `Checksum verified` (Windows).
+An empty or missing checksum line is a failure; do not run the archive. Replace
+`0.1.0` and the platform suffix with the downloaded filename.
+
+### Verify build provenance when available
+
+AIHostCheck v0.1.0 predates artifact attestations. Releases published after
+provenance support is enabled can also be authenticated with GitHub CLI:
+
+```sh
+gh attestation verify aihostcheck_VERSION_OS_ARCHIVE \
+  --repo raydthanh/aihostcheck
+```
+
+This check must identify `raydthanh/aihostcheck` as the source. Provenance is an
+additional origin check; keep the SHA-256 verification step. See the
+[distribution and signing policy](DISTRIBUTION.md) for its security boundary.
 
 ## 3. Extract and run
 
