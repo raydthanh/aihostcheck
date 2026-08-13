@@ -28,10 +28,10 @@ export type ProjectSnapshot = {
 };
 
 const fallback: ProjectSnapshot = {
-  release: "v0.1.0",
-  publishedAt: "2026-08-12T09:57:15Z",
-  repoUpdatedAt: "2026-08-12T10:36:33Z",
-  stars: 0,
+  release: "v0.2.0",
+  publishedAt: "2026-08-13T05:16:16Z",
+  repoUpdatedAt: "2026-08-13T05:15:10Z",
+  stars: 44,
   packages: 6,
   repoUrl: "https://github.com/raydthanh/aihostcheck",
   releaseUrl: "https://github.com/raydthanh/aihostcheck/releases/latest",
