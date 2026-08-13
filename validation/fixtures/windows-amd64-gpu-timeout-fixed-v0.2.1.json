@@ -1,0 +1,26 @@
+{
+  "fixture_version": "1.0.0",
+  "tool_version": "v0.2.1",
+  "report_schema_version": "1.0.0",
+  "tested_at": "2026-08-13",
+  "platform": {
+    "os": "windows",
+    "architecture": "amd64",
+    "execution_environment": "physical_host"
+  },
+  "capabilities": {
+    "gpu": {
+      "outcome": "verified",
+      "observed_status": "detected",
+      "reviewed_fields": ["status", "evidence"]
+    }
+  },
+  "limitations": [
+    "The official v0.2.1 default result was compared locally with the successful v0.2.0 15-second rerun; GPU identity and other report values were not retained."
+  ],
+  "review": {
+    "report_reviewed_locally": true,
+    "raw_report_committed": false,
+    "sensitive_data_removed": true
+  }
+}

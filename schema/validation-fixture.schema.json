@@ -122,6 +122,7 @@
             "required": ["reviewed_fields"],
             "properties": {
               "reviewed_fields": {
+                "type": "array",
                 "minItems": 1
               }
             }
@@ -140,6 +141,7 @@
             "required": ["reviewed_fields", "tracking_issue", "regression_test"],
             "properties": {
               "reviewed_fields": {
+                "type": "array",
                 "minItems": 1
               }
             }

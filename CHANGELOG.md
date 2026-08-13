@@ -4,6 +4,17 @@ All notable changes to AIHostCheck will be documented in this file. The project 
 
 ## Unreleased
 
+### Fixed
+
+- Make conditional validation-fixture constraints fully typed for strict JSON
+  Schema validators.
+
+### Validation
+
+- Confirm the Windows AMD64 GPU timeout fix on a physical host using the
+  official v0.2.1 release and its default timeout, recording only the reviewed
+  status and evidence conclusion.
+
 ## [0.2.1] - 2026-08-13
 
 ### Fixed
