@@ -26,7 +26,7 @@ No probe uses the network. AIHostCheck has no telemetry and never uploads a repo
 
 **Project status:** v0.1.0 is a working early release, not a claim of established adoption. The [public roadmap](docs/ROADMAP.md) separates shipped evidence, planned work, exploratory ideas, and explicit non-goals. Roadmap items move through the issue tracker and count as complete only when their code, tests, documentation, or release evidence is public.
 
-**Community field test:** developers can follow the bounded [field-test protocol](docs/FIELD_TESTING.md) to validate the release on a real machine. Participation requires no account, telemetry, or full report submission; reviewed findings become public engineering evidence and regression tests.
+**Community field test:** developers can follow the bounded [field-test protocol](docs/FIELD_TESTING.md) to validate the release on a real machine. Participation requires no account, telemetry, or full report submission. The [minimal fixture format](validation/README.md) publishes only reviewed conclusions; hardware coverage remains unclaimed until a real-host fixture passes CI and privacy review.
 
 Before giving a JSON report to GPT or another AI agent, inspect the file and share it as environment context—not as a command to execute. The [AI workflow guide](docs/USING_WITH_AI.md) includes a safe, reusable prompt and explains how an agent should interpret evidence and unknown states.
 

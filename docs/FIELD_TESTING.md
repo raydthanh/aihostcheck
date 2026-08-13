@@ -44,6 +44,12 @@ contains the operating-system family, AIHostCheck version, expected behavior,
 actual behavior, and the smallest redacted excerpt needed to reproduce the
 problem.
 
+If you want a reviewed result to become part of the public validation matrix,
+follow the [real-device validation protocol](../validation/README.md). Its
+minimal fixture records only conclusions and limitations; it never contains the
+diagnostic values or evidence reviewed on your host. A fixture counts as
+coverage only after CI and maintainer privacy review pass.
+
 ## What to examine
 
 Please pay particular attention to:
@@ -71,6 +77,11 @@ Before sharing any excerpt:
   unreviewed full report;
 - use a private [security advisory](https://github.com/raydthanh/aihostcheck/security/advisories/new)
   rather than a public issue for a vulnerability.
+
+Do not commit a full report even after redaction. The repository accepts only
+the bounded fixture fields listed in the
+[validation schema](../schema/validation-fixture.schema.json), and strict tests
+reject unexpected JSON fields.
 
 The complete data boundary is documented in [PRIVACY.md](../PRIVACY.md), and
 the public validation objective is tracked in
