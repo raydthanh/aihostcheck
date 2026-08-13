@@ -477,6 +477,13 @@ export default async function Home() {
           <a href="/field-test">Field test</a>
           <a href="/roadmap">Roadmap</a>
           <a
+            href={`${github}/blob/main/docs/DISTRIBUTION.md`}
+            target="_blank"
+            rel="noreferrer"
+          >
+            Release integrity
+          </a>
+          <a
             href={`${github}/blob/main/PRIVACY.md`}
             target="_blank"
             rel="noreferrer"
