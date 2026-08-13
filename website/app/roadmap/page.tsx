@@ -51,12 +51,12 @@ const phases = [
   },
   {
     index: "01",
-    status: "NEXT",
+    status: "IN PROGRESS",
     title: "Reliability on real machines",
     summary:
       "Move beyond hosted runners with a privacy-safe validation matrix and turn every confirmed mismatch into a regression test.",
     outcomes: [
-      "Redacted fixture format for real-device reports",
+      "Privacy-safe fixture contract with strict CI validation",
       "Representative OS and architecture coverage",
       "Documented limitations for blocked or unavailable evidence",
       "Compatibility and provenance rules covered by tests",
@@ -66,13 +66,13 @@ const phases = [
   },
   {
     index: "02",
-    status: "FOLLOWING",
+    status: "SHIPPED / FOLLOWING",
     title: "Safer distribution and AI workflows",
     summary:
       "Make reports easier to verify, inspect, redact, and reuse without requiring an account or uploading host data.",
     outcomes: [
-      "Maintainable artifact-signing policy before signed releases",
-      "Low-friction installation paths evaluated per OS family",
+      "Keyless provenance and an explicit OS-signing policy",
+      "Native installation paths verified on each OS family",
       "Local report review and redaction assistance",
       "Agent adapters with explicit unknown and failure behavior",
     ],
@@ -172,8 +172,8 @@ export default function RoadmapPage() {
         <section className="roadmap-proof" aria-label="Roadmap trust rules">
           <div>
             <small>CURRENT RELEASE</small>
-            <strong>v0.1.0</strong>
-            <span>Working early foundation</span>
+            <strong>v0.2.0</strong>
+            <span>Reliability release</span>
           </div>
           <div>
             <small>VALIDATION STAGE</small>

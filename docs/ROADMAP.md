@@ -14,9 +14,13 @@ The public issue tracker is the execution layer for this document. A roadmap ite
 - Native CI on Windows, macOS, and Linux.
 - Privacy, security, architecture, installation, release, and AI-workflow documentation.
 
-## Next release — reliability and distribution
+## Reliability and distribution — v0.2
 
-The next release should make the existing foundation easier to trust on real machines and easier to install without weakening its privacy boundary.
+v0.2 makes the existing foundation easier to validate and distribute without
+weakening its privacy boundary. The fixture contract, schema compatibility
+rules, native installation verification, distribution policy, and keyless
+release provenance are shipped. Representative real-device coverage remains
+open and is not inferred from hosted CI.
 
 ### Real-device validation matrix
 

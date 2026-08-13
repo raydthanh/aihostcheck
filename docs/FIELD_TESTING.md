@@ -1,6 +1,6 @@
 # Community field test
 
-AIHostCheck v0.1.0 is ready for a small, public field test on real developer
+AIHostCheck v0.2.0 is ready for a small, public field test on real developer
 machines. This is not a request for stars, endorsements, or unreviewed system
 reports. It is a request for evidence: does the tool describe a host accurately
 enough for an AI coding assistant to choose relevant instructions without
@@ -30,7 +30,7 @@ that evidence is just as important as detecting a specialized setup.
 ## Test protocol
 
 1. Download the archive for your platform from the
-   [v0.1.0 release](https://github.com/raydthanh/aihostcheck/releases/tag/v0.1.0).
+   [v0.2.0 release](https://github.com/raydthanh/aihostcheck/releases/tag/v0.2.0).
 2. Verify the SHA-256 checksum and follow the platform instructions in
    [INSTALL.md](INSTALL.md).
 3. Run the human-readable report, then run `aihostcheck --json`.
