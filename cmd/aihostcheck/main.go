@@ -13,10 +13,15 @@ import (
 
 var version = "dev"
 
+// defaultProbeTimeout leaves enough room for a cold, non-interactive
+// PowerShell start and the read-only Windows CIM GPU query. Fast probes still
+// return immediately, and callers can lower or raise the bound with --timeout.
+const defaultProbeTimeout = 15 * time.Second
+
 func main() {
 	jsonOutput := flag.Bool("json", false, "emit the machine-readable JSON report")
 	showVersion := flag.Bool("version", false, "print the AIHostCheck version and exit")
-	timeout := flag.Duration("timeout", 3*time.Second, "maximum duration of each command probe")
+	timeout := flag.Duration("timeout", defaultProbeTimeout, "maximum duration of each command probe")
 	flag.Parse()
 	if *showVersion {
 		fmt.Fprintln(os.Stdout, version)
