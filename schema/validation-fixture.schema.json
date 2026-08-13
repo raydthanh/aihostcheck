@@ -1,0 +1,184 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aihostcheck.bond/schemas/validation-fixture-1.0.0.json",
+  "title": "AIHostCheck privacy-safe validation fixture 1.0.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "fixture_version",
+    "tool_version",
+    "report_schema_version",
+    "tested_at",
+    "platform",
+    "capabilities",
+    "review"
+  ],
+  "properties": {
+    "fixture_version": {
+      "const": "1.0.0"
+    },
+    "tool_version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "report_schema_version": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)$"
+    },
+    "tested_at": {
+      "type": "string",
+      "format": "date"
+    },
+    "platform": {
+      "$ref": "#/$defs/platform"
+    },
+    "capabilities": {
+      "type": "object",
+      "minProperties": 1,
+      "propertyNames": {
+        "minLength": 1
+      },
+      "additionalProperties": {
+        "$ref": "#/$defs/capability_check"
+      }
+    },
+    "limitations": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "review": {
+      "$ref": "#/$defs/review"
+    }
+  },
+  "$defs": {
+    "platform": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "os",
+        "architecture",
+        "execution_environment"
+      ],
+      "properties": {
+        "os": {
+          "enum": ["windows", "macos", "linux"]
+        },
+        "architecture": {
+          "enum": ["amd64", "arm64"]
+        },
+        "execution_environment": {
+          "enum": ["physical_host", "virtual_machine", "wsl", "container", "other"]
+        }
+      }
+    },
+    "capability_check": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "outcome",
+        "observed_status"
+      ],
+      "properties": {
+        "outcome": {
+          "enum": ["verified", "incorrect", "blocked", "unsupported", "unavailable", "not_checked"]
+        },
+        "observed_status": {
+          "enum": ["detected", "not_detected", "unknown", "unsupported", "error", "permission_denied"]
+        },
+        "reviewed_fields": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "enum": ["status", "value", "evidence", "details"]
+          }
+        },
+        "note": {
+          "type": "string",
+          "minLength": 1
+        },
+        "tracking_issue": {
+          "type": "string",
+          "pattern": "^https://github\\.com/raydthanh/aihostcheck/issues/[1-9][0-9]*$"
+        },
+        "regression_test": {
+          "type": "string",
+          "pattern": "^[^/\\\\][^\\\\]*_test\\.go$"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "outcome": {
+                "const": "verified"
+              }
+            },
+            "required": ["outcome"]
+          },
+          "then": {
+            "required": ["reviewed_fields"],
+            "properties": {
+              "reviewed_fields": {
+                "minItems": 1
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "outcome": {
+                "const": "incorrect"
+              }
+            },
+            "required": ["outcome"]
+          },
+          "then": {
+            "required": ["reviewed_fields", "tracking_issue", "regression_test"],
+            "properties": {
+              "reviewed_fields": {
+                "minItems": 1
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "outcome": {
+                "enum": ["blocked", "unsupported", "unavailable", "not_checked"]
+              }
+            },
+            "required": ["outcome"]
+          },
+          "then": {
+            "required": ["note"]
+          }
+        }
+      ]
+    },
+    "review": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "report_reviewed_locally",
+        "raw_report_committed",
+        "sensitive_data_removed"
+      ],
+      "properties": {
+        "report_reviewed_locally": {
+          "const": true
+        },
+        "raw_report_committed": {
+          "const": false
+        },
+        "sensitive_data_removed": {
+          "const": true
+        }
+      }
+    }
+  }
+}

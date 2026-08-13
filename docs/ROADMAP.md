@@ -24,10 +24,15 @@ Validate reports on representative Windows, macOS, and Linux hosts beyond hosted
 
 Completion evidence:
 
-- A documented, privacy-safe fixture format for redacted validation reports.
+- A documented, privacy-safe fixture format for validation conclusions; raw or
+  redacted diagnostic reports are not repository fixtures.
 - Coverage across supported operating systems and AMD64/ARM64 where hardware is available.
 - Regression tests for every confirmed incorrect detection.
 - Limitations recorded when hardware or permissions prevent a definitive result.
+
+The fixture contract and automated validation are shipped. Device coverage is
+still pending and will be counted only from reviewed real-host evidence in
+`validation/fixtures/`; hosted CI and documentation examples do not count.
 
 ### Safer, easier installation
 
