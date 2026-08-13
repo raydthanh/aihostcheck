@@ -10,6 +10,8 @@ All notable changes to AIHostCheck will be documented in this file. The project 
 - Report provenance and schema compatibility rules with a tested reference implementation and migration requirements.
 - A versioned, privacy-safe real-device validation fixture contract, strict
   repository checks, and a maintainer review protocol that excludes raw reports.
+- Native installation-path checks for Windows, macOS, and Linux, plus a public
+  distribution/signing policy and keyless provenance for future releases.
 
 ## [0.1.0] - 2026-08-12
 

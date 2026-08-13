@@ -7,6 +7,7 @@ on:
       - .github/workflows/release.yml
       - scripts/package-release.sh
       - docs/INSTALL.md
+      - docs/DISTRIBUTION.md
       - cmd/aihostcheck/**
       - internal/**
       - go.mod
@@ -39,8 +40,8 @@ jobs:
         goos: [linux, darwin, windows]
         goarch: [amd64, arm64]
     steps:
-      - uses: actions/checkout@v7
-      - uses: actions/setup-go@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7
         with:
           go-version-file: go.mod
           cache: false
@@ -66,7 +67,7 @@ jobs:
         shell: bash
         run: ./scripts/package-release.sh "${{ matrix.goos }}" "${{ matrix.goarch }}" "$PACKAGE_VERSION" dist
       - name: Upload archive
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         with:
           path: dist/aihostcheck_*
           archive: false
@@ -79,7 +80,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - uses: actions/download-artifact@v8
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
         with:
           pattern: aihostcheck_*
           path: release
@@ -103,12 +104,108 @@ jobs:
           done
           sha256sum "${archives[@]}" > checksums.txt
       - name: Upload verified release bundle
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         with:
           name: release-bundle
           path: release/*
           if-no-files-found: error
           retention-days: 7
+
+  verify-install:
+    name: Verify install on ${{ matrix.platform }}
+    needs: assemble
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - platform: Linux
+            runner: ubuntu-latest
+            target_os: linux
+          - platform: macOS
+            runner: macos-latest
+            target_os: darwin
+          - platform: Windows
+            runner: windows-latest
+            target_os: windows
+    steps:
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
+        with:
+          name: release-bundle
+          path: release
+      - name: Verify, extract, and run Unix archive
+        if: runner.os != 'Windows'
+        env:
+          TARGET_OS: ${{ matrix.target_os }}
+        shell: bash
+        run: |
+          case "$RUNNER_ARCH" in
+            X64) target_arch=amd64 ;;
+            ARM64) target_arch=arm64 ;;
+            *) echo "Unsupported runner architecture: $RUNNER_ARCH" >&2; exit 1 ;;
+          esac
+          archive_pattern="*_${TARGET_OS}_${target_arch}.tar.gz"
+          shopt -s nullglob
+          archives=(release/$archive_pattern)
+          if [[ "${#archives[@]}" -ne 1 ]]; then
+            echo "Expected one archive matching $archive_pattern, found ${#archives[@]}" >&2
+            exit 1
+          fi
+          archive="${archives[0]}"
+          filename="$(basename "$archive")"
+          checksum_line="$(awk -v name="$filename" '$2 == name { print }' release/checksums.txt)"
+          if [[ -z "$checksum_line" ]]; then
+            echo "No checksum found for $filename" >&2
+            exit 1
+          fi
+          if [[ "$RUNNER_OS" == "macOS" ]]; then
+            printf '%s\n' "$checksum_line" | (cd release && shasum -a 256 -c -)
+          else
+            printf '%s\n' "$checksum_line" | (cd release && sha256sum -c -)
+          fi
+          mkdir install
+          tar -xzf "$archive" -C install
+          binary="$(find install -type f -name aihostcheck -print -quit)"
+          test -n "$binary"
+          "$binary" --version
+          "$binary" --json > report.json
+          test -s report.json
+      - name: Verify, extract, and run Windows archive
+        if: runner.os == 'Windows'
+        env:
+          TARGET_OS: ${{ matrix.target_os }}
+        shell: pwsh
+        run: |
+          $targetArch = switch ($env:RUNNER_ARCH) {
+            "X64" { "amd64" }
+            "ARM64" { "arm64" }
+            default { throw "Unsupported runner architecture: $env:RUNNER_ARCH" }
+          }
+          $archivePattern = "*_$($env:TARGET_OS)_$targetArch.zip"
+          $archives = @(Get-ChildItem -Path release -Filter $archivePattern)
+          if ($archives.Count -ne 1) {
+            throw "Expected one archive matching $archivePattern, found $($archives.Count)"
+          }
+          $archive = $archives[0]
+          $match = @(Select-String -Path release/checksums.txt -Pattern ("  " + [regex]::Escape($archive.Name) + "$"))
+          if ($match.Count -ne 1) {
+            throw "Expected one checksum for $($archive.Name)"
+          }
+          $expected = ($match[0].Line -split '\s+')[0].ToLowerInvariant()
+          $actual = (Get-FileHash $archive.FullName -Algorithm SHA256).Hash.ToLowerInvariant()
+          if ($actual -ne $expected) {
+            throw "Checksum mismatch for $($archive.Name)"
+          }
+          Expand-Archive -Path $archive.FullName -DestinationPath install
+          $binary = Get-ChildItem -Path install -Recurse -Filter aihostcheck.exe | Select-Object -First 1
+          if ($null -eq $binary) {
+            throw "aihostcheck.exe was not found after extraction"
+          }
+          & $binary.FullName --version
+          if ($LASTEXITCODE -ne 0) { throw "--version failed" }
+          & $binary.FullName --json | Set-Content -Encoding utf8 report.json
+          if ($LASTEXITCODE -ne 0 -or -not (Test-Path report.json)) { throw "--json failed" }
 
   publish:
     name: Publish GitHub release
@@ -119,13 +216,15 @@ jobs:
       github.event.pull_request.merged == true &&
       github.event.pull_request.head.repo.full_name == github.repository &&
       startsWith(github.event.pull_request.head.ref, 'release/v'))
-    needs: assemble
+    needs: [assemble, verify-install]
     runs-on: ubuntu-latest
     timeout-minutes: 10
     permissions:
       contents: write
+      id-token: write
+      attestations: write
     steps:
-      - uses: actions/download-artifact@v8
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
         with:
           name: release-bundle
           path: release
@@ -139,6 +238,10 @@ jobs:
           else
             echo "PACKAGE_VERSION=${RELEASE_BRANCH#release/}" >> "$GITHUB_ENV"
           fi
+      - name: Attest release archive provenance
+        uses: actions/attest@1e69f48acb82d1966a394da916b4c1698aa569d6 # v4.2.2
+        with:
+          subject-checksums: release/checksums.txt
       - name: Publish release
         env:
           GH_TOKEN: ${{ github.token }}

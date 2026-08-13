@@ -11,7 +11,7 @@ AIHostCheck is a small, read-only, cross-OS diagnostic layer that gives people, 
 
 ## Quick start
 
-Download the standalone archive for Windows, macOS, or Linux from [GitHub Releases](https://github.com/raydthanh/aihostcheck/releases). See the [installation and checksum guide](docs/INSTALL.md) for platform-specific steps.
+Download the standalone archive for Windows, macOS, or Linux from [GitHub Releases](https://github.com/raydthanh/aihostcheck/releases). See the [installation and verification guide](docs/INSTALL.md) for platform-specific checksum and provenance steps. Distribution-channel and signing decisions are public in [`docs/DISTRIBUTION.md`](docs/DISTRIBUTION.md).
 
 To build the current source with Go 1.22 or newer:
 
